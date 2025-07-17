@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+{% block title %}Emitir Certificado{% endblock %}
+{% block content %}
+<div class="container" style="max-width: 500px; margin-top: 40px;">
+  <h2 class="mb-4 text-center certificado-form-title">Emitir Certificado</h2>
+  {% if pode_gerar %}
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="nome_completo" class="form-label">Nome completo para o certificado</label>
+        <input type="text" class="form-control" id="nome_completo" name="nome_completo" required placeholder="Digite seu nome completo">
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Gerar Certificado</button>
+    </form>
+  {% else %}
+    <div class="alert alert-warning text-center">
+      Você precisa concluir todos os módulos para emitir o certificado.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
+<style>
+  .certificado-form-title {
+    color: #002f6c !important;
+    text-shadow: none !important;
+  }
+  body.dark-mode .certificado-form-title {
+    color: #fff !important;
+    text-shadow: none !important;
+  }
+</style> 

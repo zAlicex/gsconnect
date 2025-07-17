@@ -1,0 +1,138 @@
+{% load static %}
+<link href="https://fonts.googleapis.com/css?family=Poppins:400,500,700&display=swap" rel="stylesheet">
+{% block content %}
+<div class="login-bg-custom">
+  <div class="login-center-custom">
+    <div class="login-card-custom">
+      <h2 class="login-title-custom">Login</h2>
+      <div class="login-logo-center"><img src="{% static 'img/logo-branco.png' %}" alt="Logo Golden Sat" class="login-logo-custom"></div>
+      <form method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="input-group-custom">
+          <span class="input-icon"><i class="bi bi-person-fill"></i></span>
+          <input type="text" name="username" class="input-custom" placeholder="Usuário" required autofocus>
+        </div>
+        <div class="input-group-custom">
+          <span class="input-icon"><i class="bi bi-lock-fill"></i></span>
+          <input type="password" name="password" class="input-custom" placeholder="Senha" required>
+        </div>
+        <button type="submit" class="login-btn-custom">Login</button>
+      </form>
+    </div>
+  </div>
+</div>
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.login-bg-custom {
+  min-height: 100vh;
+  width: 100vw;
+  background: url('{% static 'img/login.png' %}') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-center-custom {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-card-custom {
+  background: rgba(0, 47, 108, 0.92); /* var(--azul-escuro) com transparência */
+  border-radius: 18px;
+  box-shadow: 0 8px 40px 0 rgba(0,0,0,0.25);
+  padding: 2.5rem 2.2rem 2rem 2.2rem;
+  max-width: 370px;
+  width: 100%;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  backdrop-filter: blur(2px);
+}
+.login-title-custom {
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin-bottom: 1.1rem;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+.login-logo-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+.login-logo-custom {
+  max-width: 150px;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.12));
+}
+.input-group-custom {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.13);
+  border-radius: 8px;
+  margin-bottom: 1.1rem;
+  width: 100%;
+  padding: 0.2rem 0.7rem;
+  border: 1.5px solid rgba(255,255,255,0.18);
+}
+.input-icon {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-right: 0.7rem;
+}
+.input-custom {
+  background: transparent !important;
+  border: none !important;
+  color: #fff !important;
+  width: 100%;
+  font-size: 1.08rem;
+  outline: none;
+  box-shadow: none !important;
+  padding: 0.7rem 0 0.7rem 0;
+}
+.input-custom::placeholder {
+  color: #e0e0e0 !important;
+  opacity: 1;
+}
+.login-btn-custom {
+  width: 100%;
+  background: #fff;
+  color: #5a2bb7;
+  font-weight: 600;
+  font-size: 1.13rem;
+  border: none;
+  border-radius: 24px;
+  padding: 0.7rem 0;
+  margin-bottom: 1.1rem;
+  margin-top: 0.2rem;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 10px 0 rgba(0,0,0,0.10);
+}
+.login-btn-custom:hover, .login-btn-custom:focus {
+  background: #f4c20d;
+  color: #3a1a6c;
+}
+@media (max-width: 500px) {
+  .login-card-custom {
+    max-width: 98vw;
+    padding: 1.2rem 0.3rem 1.2rem 0.3rem;
+  }
+  .login-title-custom {
+    font-size: 1.4rem;
+  }
+  .login-logo-custom {
+    max-width: 90px;
+  }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+{% block title %}Meu Perfil{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4 perfil-title">Meu Perfil</h2>
+  <div class="card mb-4 perfil-card">
+    <div class="card-body">
+      <p><strong>Nome:</strong> {{ nome }}</p>
+      <p><strong>Empresa:</strong> {{ empresa.nome|default:"-" }}</p>
+    </div>
+  </div>
+  <h4 class="perfil-historico-title">Histórico de Treinamentos Concluídos</h4>
+  {% if modulos_concluidos %}
+    <ul class="list-group perfil-list-group">
+      {% for progresso in modulos_concluidos %}
+        <li class="list-group-item perfil-list-item">
+          Módulo: <strong>{{ progresso.modulo.titulo }}</strong>
+          <span class="perfil-data-hora">({{ progresso.atualizado_em|date:"d/m/Y H:i" }})</span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="alert alert-info mt-3">Nenhum treinamento concluído ainda.</div>
+  {% endif %}
+</div>
+<style>
+  body.dark-mode .perfil-card {
+    background: #23272b;
+    color: #f3f3f3;
+    border: 1.5px solid #333;
+  }
+  body.dark-mode .perfil-list-group .perfil-list-item {
+    background: #23272b;
+    color: #f3f3f3;
+    border-color: #333;
+  }
+  body.dark-mode h2, body.dark-mode h4 {
+    color: #fff !important;
+  }
+  body.dark-mode .perfil-data-hora {
+    color: #fff !important;
+    opacity: 0.7;
+  }
+</style>
+{% endblock %} 

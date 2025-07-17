@@ -1,0 +1,383 @@
+/* CSS do app cursos - migrado dos templates */ 
+/* ====== MODULO ====== */
+.modulo-detalhe-section {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+.modulo-detalhe-card {
+  background: var(--branco);
+  color: var(--texto);
+  border: 2px solid #e0e0e0;
+  border-top: 6px solid var(--amarelo);
+  border-radius: 18px 18px 18px 18px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  padding: 2.2rem 2.2rem 2rem 2.2rem;
+  max-width: 98vw;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+body.dark-mode .modulo-detalhe-card {
+  background: #23272b;
+  color: #f3f3f3;
+  border: 2px solid #333;
+  border-top: 6px solid var(--amarelo);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.22);
+}
+.sidebar-equipamentos {
+  position: fixed;
+  right: 30px;
+  top: 120px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+}
+.modulo-detalhe-titulo {
+  color: var(--azul-escuro);
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+body.dark-mode .modulo-detalhe-titulo {
+  color: var(--amarelo);
+}
+.modulo-detalhe-desc {
+  color: var(--texto);
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+body.dark-mode .modulo-detalhe-desc {
+  color: #f3f3f3;
+}
+.modulo-detalhe-video {
+  width: 95vw;
+  max-width: 1200px;
+  min-height: 350px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 1.2rem;
+  background: #000;
+  display: block;
+  color-scheme: dark;
+}
+body.dark-mode .modulo-detalhe-video {
+  background: #000;
+  color-scheme: dark;
+}
+.video-vertical {
+  width: 320px !important;
+  max-width: 98vw !important;
+  height: 570px !important;
+  max-height: 80vh !important;
+  margin: 0 auto 1.2rem auto !important;
+  display: block;
+  background: #000;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  object-fit: contain;
+}
+@media (max-width: 1200px) {
+  .modulo-detalhe-video {
+    width: 100vw;
+    max-width: 100vw;
+    min-height: 220px;
+  }
+  .modulo-detalhe-card {
+    padding: 1.2rem 0.5rem 1rem 0.5rem;
+  }
+}
+@media (max-width: 900px) {
+  .modulo-detalhe-titulo {
+    font-size: 1.3rem;
+  }
+  .modulo-detalhe-video {
+    min-height: 180px;
+  }
+}
+@media (max-width: 600px) {
+  .modulo-detalhe-card {
+    padding: 0.5rem 0.1rem 0.5rem 0.1rem;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .modulo-detalhe-video {
+    min-height: 90px;
+    width: 98vw;
+    max-width: 98vw;
+  }
+  .sidebar-equipamentos {
+    position: static;
+    width: 100%;
+    margin-top: 0.7rem;
+  }
+} 
+
+/* ====== TODOS MÓDULOS ====== */
+.modulos-section {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 0;
+  padding-bottom: 2rem;
+}
+.modulos-title {
+  color: var(--azul-escuro);
+  font-weight: 800;
+  margin-bottom: 0.3rem;
+  font-size: 2.2rem;
+  text-align: center;
+  letter-spacing: 0.5px;
+  background: none;
+  padding: 0.2em 0;
+  border-radius: 8px;
+}
+body.dark-mode .modulos-title {
+  color: #fff !important;
+  text-shadow: none !important;
+}
+.modulos-cards-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2.2rem 2.2rem;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+}
+.modulo-card {
+  min-width: 0;
+  max-width: 370px;
+  background: var(--branco);
+  color: var(--texto);
+  border: none;
+  border-radius: 22px;
+  box-shadow: 0 4px 32px 0 rgba(0, 60, 120, 0.13), 0 1.5px 8px 0 rgba(0,0,0,0.07);
+  padding: 0 1.2rem 1.2rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.22s, transform 0.22s;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  position: relative;
+}
+body.dark-mode .modulo-card {
+  background: #23272b;
+  color: #f3f3f3;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.22);
+}
+.modulo-card::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 7px;
+  border-radius: 22px 22px 0 0;
+  background: linear-gradient(90deg, var(--amarelo) 0%, var(--branco) 100%);
+  z-index: 2;
+  transition: background 0.22s;
+}
+body.dark-mode .modulo-card::before {
+  background: linear-gradient(90deg, var(--amarelo) 0%, #23272b 100%);
+}
+.modulo-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 10px 40px 0 rgba(0, 60, 120, 0.22), 0 2px 12px 0 rgba(0,0,0,0.10);
+}
+.modulo-img-top {
+  width: 100%;
+  max-width: 340px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 22px 22px 0 0;
+  margin-bottom: 1rem;
+  margin-top: 0;
+  background: var(--cinza-claro);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: transform 0.28s cubic-bezier(.4,1.6,.6,1), box-shadow 0.18s;
+}
+.modulo-card:hover .modulo-img-top {
+  transform: scale(1.05);
+  box-shadow: 0 6px 24px rgba(0,33,71,0.13);
+}
+.modulo-numero {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--azul-escuro);
+  letter-spacing: 1px;
+  margin-bottom: 0.2rem;
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%;
+  text-shadow: 1px 1px 2px #0008;
+}
+body.dark-mode .modulo-numero {
+  color: #fff !important;
+}
+.modulo-titulo {
+  color: var(--azul-escuro);
+  font-weight: 900;
+  font-size: 1.22rem;
+  margin-bottom: 0.3rem;
+  line-height: 1.2;
+  text-align: center;
+  width: 100%;
+  letter-spacing: 0.5px;
+}
+body.dark-mode .modulo-titulo {
+  color: var(--amarelo);
+}
+.modulo-desc {
+  color: var(--texto);
+  font-size: 1.01rem;
+  margin-bottom: 1.1rem;
+  line-height: 1.4;
+  text-align: center;
+  width: 100%;
+  font-weight: 500;
+  opacity: 0.92;
+}
+body.dark-mode .modulo-desc {
+  color: #f3f3f3;
+}
+.modulo-beneficios {
+  background: var(--cinza-claro);
+  border-radius: 10px;
+  padding: 0.7rem 0.8rem;
+  margin-bottom: 1.1rem;
+  width: 100%;
+  box-shadow: 0 1px 6px rgba(0,33,71,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+body.dark-mode .modulo-beneficios {
+  background: #23272b;
+  color: #f3f3f3;
+  border: 1px solid #333;
+}
+.modulo-beneficios li {
+  font-size: 0.99rem;
+  color: var(--amarelo);
+  margin-bottom: 0.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 500;
+}
+body.dark-mode .modulo-beneficios li {
+  color: var(--amarelo);
+}
+.modulo-beneficios .bi {
+  color: var(--amarelo);
+  font-size: 1.18rem;
+  margin-right: 0.2em;
+}
+.modulo-card .btn {
+  width: 100%;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  margin-top: auto;
+  font-size: 1.13rem;
+  padding: 0.8rem 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,33,71,0.08);
+  transition: background 0.18s, color 0.18s, filter 0.18s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+.modulo-card .btn.btn-primary {
+  background: var(--amarelo) !important;
+  color: var(--azul-escuro) !important;
+  border: none;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+}
+body.dark-mode .modulo-card .btn.btn-primary {
+  background: var(--amarelo) !important;
+  color: var(--azul-escuro) !important;
+  box-shadow: 0 2px 8px #0004;
+}
+.modulo-card .btn.btn-primary:hover, .modulo-card .btn.btn-primary:focus {
+  background: var(--azul-escuro) !important;
+  color: var(--amarelo) !important;
+  filter: brightness(1.08);
+}
+body.dark-mode .modulo-card .btn.btn-primary:hover, body.dark-mode .modulo-card .btn.btn-primary:focus {
+  background: var(--azul-escuro) !important;
+  color: var(--amarelo) !important;
+}
+.modulo-card .btn .bi {
+  font-size: 1.25em;
+  margin-left: 0.3em;
+  vertical-align: -0.1em;
+}
+@media (max-width: 900px) {
+  .modulos-cards-row {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  .modulo-card {
+    min-width: 0;
+    max-width: 100%;
+    padding: 0.5rem 0.7rem 0.9rem 0.7rem;
+  }
+  .modulos-title {
+    font-size: 1.5rem;
+  }
+  .modulo-img-top {
+    height: 100px;
+  }
+}
+@media (max-width: 600px) {
+  .modulos-cards-row {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+    width: 100vw;
+    margin-left: -8px;
+    margin-right: -8px;
+    box-sizing: border-box;
+  }
+  .modulo-card {
+    max-width: 99vw;
+    padding: 0.3rem 0.2rem 0.7rem 0.2rem;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .modulo-img-top {
+    height: 60px;
+    max-width: 98vw;
+  }
+}
+@media (max-width: 400px) {
+  .modulo-card {
+    padding: 0.4rem 0.1rem 0.7rem 0.1rem;
+    font-size: 0.95rem;
+  }
+} 
+
+/* ====== LISTA CURSOS ====== */
+@media (max-width: 600px) {
+  .col-md-3 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .card.h-100 {
+    margin-bottom: 1rem;
+  }
+} 

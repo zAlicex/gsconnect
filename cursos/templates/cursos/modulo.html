@@ -1,0 +1,268 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}{{ modulo.titulo }}{% endblock %}
+
+{% block content %}
+
+{% if modulo.id == 2 %}
+  <hr>
+  <h3 class="mt-4 mb-3 text-center">Modelos de Equipamento do Cliente</h3>
+
+  {% if conteudos_equipamentos|length == 1 %}
+    <div class="d-flex justify-content-center">
+      {% with conteudo=conteudos_equipamentos.0 %}
+      <div class="card shadow-sm" style="min-width: 320px; max-width: 900px; width: 100%; margin: 0 auto;">
+        <div class="card-header bg-primary text-white d-flex align-items-center" style="font-size:1.1rem;">
+          <i class="bi bi-cpu-fill me-2"></i>
+          <span class="fw-bold">{{ conteudo.modelo }}</span>
+          {% if conteudo.titulo %}<span class="ms-2">{{ conteudo.titulo }}</span>{% endif %}
+        </div>
+        <div class="card-body d-flex flex-column align-items-center">
+          {% if conteudo.video %}
+            <video id="video-modelo-{{ conteudo.id }}" data-modelo-id="{{ conteudo.modelo.id }}" src="{{ conteudo.video.url }}" controls style="width: 100%; max-width: 900px; min-height: 350px; border-radius: 12px; margin-bottom: 10px; box-shadow:0 2px 8px rgba(0,0,0,0.10); background: #000;"></video>
+          {% endif %}
+          <p class="mt-2" style="width:100%;">{{ conteudo.descricao }}</p>
+        </div>
+      </div>
+      {% endwith %}
+    </div>
+
+  {% elif conteudos_equipamentos|length > 1 %}
+    <div class="position-relative" style="max-width: 900px; margin: 0 auto;">
+      <!-- Primeiro modelo centralizado -->
+      <div class="d-flex justify-content-center mb-4">
+        {% with conteudo=conteudos_equipamentos.0 %}
+        <div class="card shadow-sm" style="min-width: 320px; max-width: 900px; width: 100%; margin: 0 auto;">
+          <div class="card-header bg-primary text-white d-flex align-items-center" style="font-size:1.1rem;">
+            <i class="bi bi-cpu-fill me-2"></i>
+            <span class="fw-bold">{{ conteudo.modelo }}</span>
+            {% if conteudo.titulo %}<span class="ms-2">{{ conteudo.titulo }}</span>{% endif %}
+          </div>
+          <div class="card-body d-flex flex-column align-items-center">
+            {% if conteudo.video %}
+              <video id="video-modelo-{{ conteudo.id }}" data-modelo-id="{{ conteudo.modelo.id }}" src="{{ conteudo.video.url }}" controls style="width: 100%; max-width: 900px; min-height: 350px; border-radius: 12px; margin-bottom: 10px; box-shadow:0 2px 8px rgba(0,0,0,0.10); background: #000;"></video>
+            {% endif %}
+            <p class="mt-2" style="width:100%;">{{ conteudo.descricao }}</p>
+          </div>
+        </div>
+        {% endwith %}
+      </div>
+
+      <!-- Sidebar fixa com os demais -->
+      <div class="sidebar-equipamentos">
+        {% for conteudo in conteudos_equipamentos|slice:'1:' %}
+        <div class="card shadow-sm sidebar-video-card" data-index="{{ forloop.counter }}" style="max-width: 900px; margin: 0 auto;">
+          <div class="card-header bg-primary text-white d-flex align-items-center" style="font-size:1.1rem;">
+            <i class="bi bi-cpu-fill me-2"></i>
+            <span class="fw-bold sidebar-modelo">{{ conteudo.modelo }}</span>
+            {% if conteudo.titulo %}<span class="ms-2 sidebar-titulo">{{ conteudo.titulo }}</span>{% endif %}
+          </div>
+          <div class="card-body d-flex flex-column align-items-center">
+            {% if conteudo.video %}
+              <video id="video-modelo-{{ conteudo.id }}" class="sidebar-video" data-modelo-id="{{ conteudo.modelo.id }}" src="{{ conteudo.video.url }}" controls style="width: 100%; max-width: 900px; border-radius: 8px; margin-bottom: 10px; box-shadow:0 2px 8px rgba(0,0,0,0.10);"></video>
+            {% endif %}
+            <p class="mt-2 sidebar-descricao" style="width:100%;">{{ conteudo.descricao }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if conteudos_equipamentos %}
+    <script id="tempos-assistidos-data" type="application/json">{{ tempos_assistidos|safe }}</script>
+  {% endif %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Troca de vídeo central com vídeo da sidebar
+      const centralCard = document.querySelector('.d-flex.justify-content-center.mb-4 .card');
+      const sidebarCards = document.querySelectorAll('.sidebar-video-card');
+      if (centralCard && sidebarCards.length > 0) {
+        sidebarCards.forEach(function(sidebarCard) {
+          sidebarCard.addEventListener('click', function() {
+            // Elementos do central
+            const centralVideo = centralCard.querySelector('video');
+            const centralModelo = centralCard.querySelector('.fw-bold');
+            const centralTitulo = centralCard.querySelector('.ms-2');
+            const centralDescricao = centralCard.querySelector('p');
+
+            // Elementos do sidebar
+            const sidebarVideo = sidebarCard.querySelector('video');
+            const sidebarModelo = sidebarCard.querySelector('.sidebar-modelo');
+            const sidebarTitulo = sidebarCard.querySelector('.sidebar-titulo');
+            const sidebarDescricao = sidebarCard.querySelector('.sidebar-descricao');
+
+            // Salvar dados do central
+            const temp = {
+              src: centralVideo.src,
+              modelo: centralModelo.textContent,
+              titulo: centralTitulo ? centralTitulo.textContent : '',
+              descricao: centralDescricao.textContent
+            };
+
+            // Trocar central pelo sidebar
+            centralVideo.src = sidebarVideo.src;
+            centralModelo.textContent = sidebarModelo.textContent;
+            if (centralTitulo && sidebarTitulo) {
+              centralTitulo.textContent = sidebarTitulo.textContent;
+            } else if (centralTitulo && !sidebarTitulo) {
+              centralTitulo.textContent = '';
+            } else if (!centralTitulo && sidebarTitulo) {
+              const span = document.createElement('span');
+              span.className = 'ms-2';
+              span.textContent = sidebarTitulo.textContent;
+              centralModelo.parentNode.appendChild(span);
+            }
+            centralDescricao.textContent = sidebarDescricao.textContent;
+
+            // Trocar sidebar pelo central
+            sidebarVideo.src = temp.src;
+            sidebarModelo.textContent = temp.modelo;
+            if (sidebarTitulo && temp.titulo) {
+              sidebarTitulo.textContent = temp.titulo;
+            } else if (sidebarTitulo && !temp.titulo) {
+              sidebarTitulo.textContent = '';
+            } else if (!sidebarTitulo && temp.titulo) {
+              const span = document.createElement('span');
+              span.className = 'sidebar-titulo ms-2';
+              span.textContent = temp.titulo;
+              sidebarModelo.parentNode.appendChild(span);
+            }
+            sidebarDescricao.textContent = temp.descricao;
+          });
+        });
+      }
+      // --- CORREÇÃO: Loop JS para registrar progresso dos vídeos de equipamentos ---
+      let temposAssistidos = {};
+      const temposScript = document.getElementById('tempos-assistidos-data');
+      if (temposScript) {
+        temposAssistidos = JSON.parse(temposScript.textContent);
+      }
+      document.querySelectorAll('video[id^="video-modelo-"]').forEach(function(video) {
+        const modeloId = video.getAttribute('data-modelo-id');
+        const tempoSalvo = temposAssistidos[modeloId] || 0;
+        video.addEventListener('loadedmetadata', function() {
+          if (tempoSalvo > 0 && tempoSalvo < video.duration) {
+            video.currentTime = tempoSalvo;
+          }
+        });
+        let maxWatched = 0;
+        let lastSent = 0;
+        video.addEventListener('timeupdate', function() {
+          if (video.currentTime > maxWatched) {
+            maxWatched = video.currentTime;
+          }
+          if (Math.floor(maxWatched) - lastSent >= 10 || maxWatched >= video.duration) {
+            lastSent = Math.floor(maxWatched);
+            fetch(`/cursos/registrar_progresso_modelo/{{ modulo.id }}/${modeloId}/`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',
+              },
+              body: JSON.stringify({ tempo_assistido: Math.floor(maxWatched) })
+            });
+          }
+        });
+      });
+    });
+  </script>
+
+{% else %}
+  <div style="width:100%;text-align:center;margin:32px 0 24px 0;"><h2 style="color:#0a3570;font-weight:700;">{{ modulo.titulo }}</h2></div>
+  <div class="modulo-detalhe-section">
+    <div class="modulo-detalhe-card" style="background:#fff;box-shadow:0 4px 24px rgba(44,62,80,0.10);border-radius:18px;padding:32px 18px 32px 18px;max-width:950px;margin:0 auto;">
+      {% if modulo.id != 1 and modulo.titulo != 'Inserção' and modulo.titulo != 'Plataforma' %}
+        <div class="modulo-detalhe-desc">{{ modulo.conteudo }}</div>
+      {% endif %}
+      {% if modulo.video %}
+        <div style="width:100%;max-width:900px;margin:0 auto 1rem auto;display:flex;flex-direction:column;align-items:center;">
+          <div class="progress" style="height: 16px; margin-bottom: 18px; margin-top: -10px; border-radius:8px; background:#f2f2f2; width:100%;">
+            <div id="progress-bar" class="progress-bar bg-warning" role="progressbar" style="width: 0%;color:#222;font-weight:600;border-radius:8px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+          </div>
+          <div id="progresso-texto" style="text-align:right;font-size:0.95rem;color:#555;margin-top:-10px;width:100%;margin-bottom:10px;"></div>
+          <video id="modulo-video" class="modulo-detalhe-video" controls controlsList="nodownload" style="width:100%;max-width:900px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.10);background:#000;margin-top:12px;">
+            <source src="{{ modulo.video.url }}" type="video/mp4">
+            Seu navegador não suporta vídeo HTML5.
+          </video>
+        </div>
+      {% else %}
+        <div class="alert alert-warning text-center">Este módulo ainda não possui vídeo.</div>
+      {% endif %}
+    </div>
+  </div>
+  <script>
+    const video = document.getElementById('modulo-video');
+    const progressBar = document.getElementById('progress-bar');
+    const progressoTexto = document.getElementById('progresso-texto');
+    let maxWatched = 0;
+    let lastSent = 0;
+    let ultimoProgressoSalvo = 0;
+    const tempoAssistidoSalvo = {{ tempo_assistido|default:0|add:0 }};
+    function updateProgressBar() {
+      if (!video || !video.duration) return;
+      const percent = Math.floor((maxWatched / video.duration) * 100);
+      progressBar.style.width = percent + '%';
+      progressBar.setAttribute('aria-valuenow', percent);
+      progressBar.textContent = percent + '%';
+      progressoTexto.textContent = `Tempo assistido: ${Math.floor(maxWatched/60)}m ${Math.floor(maxWatched%60)}s / ${Math.floor(video.duration/60)}m`;
+    }
+    function salvarProgresso(tempo) {
+      if (tempo > ultimoProgressoSalvo) {
+        ultimoProgressoSalvo = tempo;
+        fetch('{% url "cursos:registrar_progresso" modulo.id %}', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+          },
+          body: JSON.stringify({ tempo_assistido: Math.floor(tempo) })
+        });
+      }
+    }
+    if (video) {
+      video.addEventListener('loadedmetadata', function() {
+        if (tempoAssistidoSalvo > 0 && tempoAssistidoSalvo < video.duration) {
+          video.currentTime = tempoAssistidoSalvo;
+          maxWatched = tempoAssistidoSalvo;
+          updateProgressBar();
+        }
+      });
+    }
+    video && video.addEventListener('timeupdate', function() {
+      if (video.currentTime > maxWatched) {
+        maxWatched = video.currentTime;
+        updateProgressBar();
+      }
+      if (Math.floor(maxWatched) - lastSent >= 10 || maxWatched >= video.duration) {
+        lastSent = Math.floor(maxWatched);
+        salvarProgresso(maxWatched);
+      }
+    });
+    video && video.addEventListener('pause', function() {
+      salvarProgresso(maxWatched);
+    });
+    window.addEventListener('beforeunload', function() {
+      salvarProgresso(maxWatched);
+    });
+  </script>
+  <script>
+    // Ajuste automático para vídeos verticais (global para o template)
+    function ajustarVideoVertical(video) {
+      video.addEventListener('loadedmetadata', function() {
+        if (video.videoHeight > video.videoWidth) {
+          video.classList.add('video-vertical');
+        } else {
+          video.classList.remove('video-vertical');
+        }
+      });
+    }
+    // Para vídeos de módulo principal
+    const moduloVideo = document.getElementById('modulo-video');
+    if (moduloVideo) ajustarVideoVertical(moduloVideo);
+    // Para vídeos de equipamentos
+    const videosEquip = document.querySelectorAll('video[id^="video-modelo-"]');
+    videosEquip.forEach(ajustarVideoVertical);
+  </script>
+{% endif %}
+{% endblock %}

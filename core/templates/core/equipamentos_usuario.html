@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+{% block title %}Meus Equipamentos{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Meus Equipamentos</h2>
+  {% if conteudos %}
+    {% for conteudo in conteudos %}
+      <div class="card mb-4">
+        <div class="card-header">
+          <strong>{{ conteudo.modelo }}</strong> - {{ conteudo.titulo }}
+        </div>
+        <div class="card-body">
+          {% if conteudo.video %}
+            <video src="{{ conteudo.video.url }}" controls controlsList="nodownload" style="max-width: 100%; height: auto;"></video>
+          {% endif %}
+          <p class="mt-2">{{ conteudo.descricao }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="alert alert-info">Nenhum conteúdo disponível para seus equipamentos.</div>
+  {% endif %}
+</div>
+{% endblock %} 

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Cursos{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">Lista de Cursos</h2>
+    {% with all_modulos=all_modulos %}
+      <div class="mb-4 d-flex justify-content-end">
+        <div class="btn-group">
+          <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Ver Módulos
+          </button>
+          <ul class="dropdown-menu">
+            {% if all_modulos %}
+              {% for modulo in all_modulos %}
+                <li><a class="dropdown-item" href="/modulo/{{ modulo.id }}/">Módulo {{ modulo.ordem }}: {{ modulo.titulo }}</a></li>
+              {% endfor %}
+            {% else %}
+              <li><span class="dropdown-item text-muted">Nenhum módulo</span></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    {% endwith %}
+    {% for curso in cursos %}
+        <div class="mb-5">
+            <h3>{{ curso.titulo }}</h3>
+            <p>{{ curso.descricao }}</p>
+            {% if curso.modulos.all %}
+                <div class="row justify-content-center">
+                    {% for modulo in curso.modulos.all|dictsort:'ordem' %}
+                        <div class="col-md-3 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">Módulo {{ modulo.ordem }}: {{ modulo.titulo }}</h5>
+                                    {% if modulo.imagem_capa %}
+                                        <img src="{{ modulo.imagem_capa.url }}" class="modulo-img-top mb-2" alt="Capa do módulo">
+                                    {% endif %}
+                                    <p class="card-text">{{ modulo.conteudo|truncatewords:20 }}</p>
+                                    <a href="/modulo/{{ modulo.id }}/" class="btn btn-primary mt-auto">Acessar Módulo</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info text-center">Nenhum módulo disponível para este curso.</div>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>Nenhum curso disponível.</p>
+    {% endfor %}
+{% endblock %}

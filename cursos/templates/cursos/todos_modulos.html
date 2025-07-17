@@ -1,0 +1,392 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Módulos{% endblock %}
+
+{% block content %}
+<style>
+  .modulos-section {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 0;
+    padding-bottom: 2rem;
+  }
+  .modulos-title {
+    color: var(--azul-escuro);
+    font-weight: 800;
+    margin-bottom: 0.3rem;
+    font-size: 2.2rem;
+    text-align: center;
+    letter-spacing: 0.5px;
+    background: none;
+    padding: 0.2em 0;
+    border-radius: 8px;
+  }
+  body.dark-mode .modulos-title {
+    color: #fff !important;
+    text-shadow: none !important;
+  }
+  .modulos-cards-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2.2rem 2.2rem;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+  }
+  .modulo-card {
+    min-width: 0;
+    max-width: 370px;
+    background: var(--branco);
+    color: var(--texto);
+    border: none;
+    border-radius: 22px;
+    box-shadow: 0 4px 32px 0 rgba(0, 60, 120, 0.13), 0 1.5px 8px 0 rgba(0,0,0,0.07);
+    padding: 0 1.2rem 1.2rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: box-shadow 0.22s, transform 0.22s;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    position: relative;
+  }
+  body.dark-mode .modulo-card {
+    background: #23272b;
+    color: #f3f3f3;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.22);
+  }
+  .modulo-card::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 7px;
+    border-radius: 22px 22px 0 0;
+    background: linear-gradient(90deg, var(--amarelo) 0%, var(--branco) 100%);
+    z-index: 2;
+    transition: background 0.22s;
+  }
+  body.dark-mode .modulo-card::before {
+    background: linear-gradient(90deg, var(--amarelo) 0%, #23272b 100%);
+  }
+  .modulo-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 10px 40px 0 rgba(0, 60, 120, 0.22), 0 2px 12px 0 rgba(0,0,0,0.10);
+  }
+  .modulo-img-top {
+    width: 100%;
+    max-width: 340px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 22px 22px 0 0;
+    margin-bottom: 1rem;
+    margin-top: 0;
+    background: var(--cinza-claro);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: transform 0.28s cubic-bezier(.4,1.6,.6,1), box-shadow 0.18s;
+  }
+  .modulo-card:hover .modulo-img-top {
+    transform: scale(1.05);
+    box-shadow: 0 6px 24px rgba(0,33,71,0.13);
+  }
+  .modulo-numero {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--azul-escuro);
+    letter-spacing: 1px;
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+    text-shadow: 1px 1px 2px #0008;
+  }
+  body.dark-mode .modulo-numero {
+    color: #fff !important;
+  }
+  .modulo-titulo {
+    color: var(--azul-escuro);
+    font-weight: 900;
+    font-size: 1.22rem;
+    margin-bottom: 0.3rem;
+    line-height: 1.2;
+    text-align: center;
+    width: 100%;
+    letter-spacing: 0.5px;
+  }
+  body.dark-mode .modulo-titulo {
+    color: var(--amarelo);
+  }
+  .modulo-desc {
+    color: var(--texto);
+    font-size: 1.01rem;
+    margin-bottom: 1.1rem;
+    line-height: 1.4;
+    text-align: center;
+    width: 100%;
+    font-weight: 500;
+    opacity: 0.92;
+  }
+  body.dark-mode .modulo-desc {
+    color: #f3f3f3;
+  }
+  .modulo-beneficios {
+    background: var(--cinza-claro);
+    border-radius: 10px;
+    padding: 0.7rem 0.8rem;
+    margin-bottom: 1.1rem;
+    width: 100%;
+    box-shadow: 0 1px 6px rgba(0,33,71,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  body.dark-mode .modulo-beneficios {
+    background: #23272b;
+    color: #f3f3f3;
+    border: 1px solid #333;
+  }
+  .modulo-beneficios li {
+    font-size: 0.99rem;
+    color: var(--amarelo);
+    margin-bottom: 0.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 500;
+  }
+  body.dark-mode .modulo-beneficios li {
+    color: var(--amarelo);
+  }
+  .modulo-beneficios .bi {
+    color: var(--amarelo);
+    font-size: 1.18rem;
+    margin-right: 0.2em;
+  }
+  .modulo-card .btn {
+    width: 100%;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+    margin-top: auto;
+    font-size: 1.13rem;
+    padding: 0.8rem 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,33,71,0.08);
+    transition: background 0.18s, color 0.18s, filter 0.18s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+  }
+  .modulo-card .btn.btn-primary {
+    background: var(--amarelo) !important;
+    color: var(--azul-escuro) !important;
+    border: none;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+  }
+  body.dark-mode .modulo-card .btn.btn-primary {
+    background: var(--amarelo) !important;
+    color: var(--azul-escuro) !important;
+    box-shadow: 0 2px 8px #0004;
+  }
+  .modulo-card .btn.btn-primary:hover, .modulo-card .btn.btn-primary:focus {
+    background: var(--azul-escuro) !important;
+    color: var(--amarelo) !important;
+    filter: brightness(1.08);
+  }
+  body.dark-mode .modulo-card .btn.btn-primary:hover, body.dark-mode .modulo-card .btn.btn-primary:focus {
+    background: var(--azul-escuro) !important;
+    color: var(--amarelo) !important;
+  }
+  .modulo-card .btn .bi {
+    font-size: 1.25em;
+    margin-left: 0.3em;
+    vertical-align: -0.1em;
+  }
+  @media (max-width: 900px) {
+    .modulos-cards-row {
+      grid-template-columns: 1fr;
+      gap: 1.2rem;
+    }
+    .modulo-card {
+      min-width: 0;
+      max-width: 100%;
+      padding: 0.5rem 0.7rem 0.9rem 0.7rem;
+    }
+    .modulos-title {
+      font-size: 1.5rem;
+    }
+    .modulo-img-top {
+      height: 100px;
+    }
+  }
+  @media (max-width: 600px) {
+    .modulos-cards-row {
+      grid-template-columns: 1fr;
+      gap: 0.7rem;
+      width: 100vw;
+      margin-left: -8px;
+      margin-right: -8px;
+      box-sizing: border-box;
+    }
+    .modulo-card {
+      max-width: 99vw;
+      padding: 0.3rem 0.2rem 0.7rem 0.2rem;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    .modulo-img-top {
+      height: 60px;
+      max-width: 98vw;
+    }
+  }
+</style>
+<div class="modulos-section">
+  <h2 class="modulos-title">Todos os Módulos</h2>
+  <div class="modulos-cards-row">
+    {% for modulo in modulos %}
+      <div class="modulo-card">
+        {% if modulo.imagem_capa %}
+          <img src="{{ modulo.imagem_capa.url }}" class="modulo-img-top" alt="Capa do módulo">
+        {% elif "pilares" in modulo.titulo|lower %}
+          <img src="{% static 'img/pilares.png' %}" class="modulo-img-top" alt="Pilares">
+        {% elif "equipamento" in modulo.titulo|lower %}
+          <img src="{% static 'img/equipamentos.png' %}"  class="modulo-img-top" alt="Equipamentos">
+        {% elif "inser" in modulo.titulo|lower %}
+          <img src="{% static 'img/insercao.png' %}" class="modulo-img-top" alt="Inserção">
+        {% elif "plataforma" in modulo.titulo|lower %}
+          <img src="{% static 'img/plataforma.png' %}" class="modulo-img-top" alt="Plataforma">
+        {% else %}
+          <img src="{% static 'img/emergencial.png' %}" class="modulo-img-top" alt="Emergêncial">
+        {% endif %}
+        <div class="modulo-numero">MÓDULO {{ modulo.ordem }}</div>
+        <div class="modulo-titulo" id="modulo-titulo-{{ modulo.id }}">
+          {% if user.is_staff %}
+            <span class="titulo-texto">{{ modulo.titulo }}</span>
+            <button type="button" class="btn btn-link btn-sm p-0 ms-2 editar-titulo" data-id="{{ modulo.id }}" title="Editar título"><i class="bi bi-pencil-square"></i></button>
+            <form method="post" action="{% url 'cursos:editar_modulo' modulo.id %}" class="form-editar-titulo d-none" id="form-editar-titulo-{{ modulo.id }}">
+              {% csrf_token %}
+              <input type="text" name="titulo" class="form-control form-control-sm mb-1" value="{{ modulo.titulo }}" style="font-weight:900;display:inline-block;width:70%;">
+              <button type="submit" class="btn btn-success btn-sm">Salvar</button>
+              <button type="button" class="btn btn-secondary btn-sm cancelar-edicao" data-id="{{ modulo.id }}">Cancelar</button>
+            </form>
+          {% else %}
+            {{ modulo.titulo }}
+          {% endif %}
+        </div>
+        <div class="modulo-desc" id="modulo-desc-{{ modulo.id }}">
+          {% if user.is_staff %}
+            <span class="desc-texto">{{ modulo.conteudo }}</span>
+            <button type="button" class="btn btn-link btn-sm p-0 ms-2 editar-desc" data-id="{{ modulo.id }}" title="Editar descrição"><i class="bi bi-pencil-square"></i></button>
+            <form method="post" action="{% url 'cursos:editar_modulo' modulo.id %}" class="form-editar-desc d-none" id="form-editar-desc-{{ modulo.id }}">
+              {% csrf_token %}
+              <textarea name="conteudo" class="form-control form-control-sm mb-1" style="width:90%;min-height:40px;">{{ modulo.conteudo }}</textarea>
+              <button type="submit" class="btn btn-success btn-sm">Salvar</button>
+              <button type="button" class="btn btn-secondary btn-sm cancelar-edicao" data-id="{{ modulo.id }}">Cancelar</button>
+            </form>
+          {% else %}
+            {{ modulo.conteudo|truncatewords:20 }}
+          {% endif %}
+        </div>
+        <ul class="modulo-beneficios" id="modulo-beneficios-{{ modulo.id }}">
+          {% if user.is_staff %}
+            <div class="beneficios-lista">
+              {% for beneficio in modulo.beneficios.splitlines %}
+                <li class="beneficio-texto-azul"><i class="bi bi-check-circle-fill"></i> {{ beneficio }}</li>
+              {% empty %}
+                <li class="beneficio-texto-azul"><i class="bi bi-check-circle-fill"></i> Nenhum benefício cadastrado</li>
+              {% endfor %}
+            </div>
+            <button type="button" class="btn btn-link btn-sm p-0 ms-2 editar-beneficios" data-id="{{ modulo.id }}" title="Editar benefícios"><i class="bi bi-pencil-square"></i></button>
+            <form method="post" action="{% url 'cursos:editar_modulo' modulo.id %}" class="form-editar-beneficios d-none" id="form-editar-beneficios-{{ modulo.id }}">
+              {% csrf_token %}
+              <textarea name="beneficios" class="form-control form-control-sm mb-1" style="width:95%;min-height:60px;">{{ modulo.beneficios }}</textarea>
+              <button type="submit" class="btn btn-success btn-sm">Salvar</button>
+              <button type="button" class="btn btn-secondary btn-sm cancelar-edicao" data-id="{{ modulo.id }}">Cancelar</button>
+            </form>
+          {% else %}
+            {% for beneficio in modulo.beneficios.splitlines %}
+              <li class="beneficio-texto-azul"><i class="bi bi-check-circle-fill"></i> {{ beneficio }}</li>
+            {% empty %}
+              <li class="beneficio-texto-azul"><i class="bi bi-check-circle-fill"></i> Nenhum benefício cadastrado</li>
+            {% endfor %}
+          {% endif %}
+        </ul>
+        {% if modulo.id in modulos_liberados %}
+          <a href="{% url 'cursos:ver_modulo' modulo.id %}" class="btn btn-primary">
+            Acessar Módulo <i class="bi bi-play-circle-fill"></i>
+          </a>
+        {% else %}
+          <button class="btn btn-secondary" disabled style="opacity:0.7;cursor:not-allowed;">
+            Bloqueado - Assista o módulo anterior
+          </button>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+<!-- Bootstrap Icons CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Edição inline do título
+  document.querySelectorAll('.editar-titulo').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = btn.getAttribute('data-id');
+      document.querySelector(`#modulo-titulo-${id} .titulo-texto`).classList.add('d-none');
+      btn.classList.add('d-none');
+      document.getElementById(`form-editar-titulo-${id}`).classList.remove('d-none');
+    });
+  });
+  // Edição inline da descrição
+  document.querySelectorAll('.editar-desc').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = btn.getAttribute('data-id');
+      document.querySelector(`#modulo-desc-${id} .desc-texto`).classList.add('d-none');
+      btn.classList.add('d-none');
+      document.getElementById(`form-editar-desc-${id}`).classList.remove('d-none');
+    });
+  });
+  // Cancelar edição
+  document.querySelectorAll('.cancelar-edicao').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const id = btn.getAttribute('data-id');
+      if (btn.closest('.form-editar-titulo')) {
+        document.querySelector(`#modulo-titulo-${id} .titulo-texto`).classList.remove('d-none');
+        document.querySelector(`#modulo-titulo-${id} .editar-titulo`).classList.remove('d-none');
+        document.getElementById(`form-editar-titulo-${id}`).classList.add('d-none');
+      } else if (btn.closest('.form-editar-desc')) {
+        document.querySelector(`#modulo-desc-${id} .desc-texto`).classList.remove('d-none');
+        document.querySelector(`#modulo-desc-${id} .editar-desc`).classList.remove('d-none');
+        document.getElementById(`form-editar-desc-${id}`).classList.add('d-none');
+      }
+    });
+  });
+  // Edição inline dos benefícios
+  document.querySelectorAll('.editar-beneficios').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = btn.getAttribute('data-id');
+      document.querySelector(`#modulo-beneficios-${id} .beneficios-lista`).classList.add('d-none');
+      btn.classList.add('d-none');
+      document.getElementById(`form-editar-beneficios-${id}`).classList.remove('d-none');
+    });
+  });
+  // Cancelar edição dos benefícios
+  document.querySelectorAll('.cancelar-edicao').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const id = btn.getAttribute('data-id');
+      if (btn.closest('.form-editar-beneficios')) {
+        document.querySelector(`#modulo-beneficios-${id} .beneficios-lista`).classList.remove('d-none');
+        document.querySelector(`#modulo-beneficios-${id} .editar-beneficios`).classList.remove('d-none');
+        document.getElementById(`form-editar-beneficios-${id}`).classList.add('d-none');
+      }
+    });
+  });
+});
+</script>
+{% endblock %} 

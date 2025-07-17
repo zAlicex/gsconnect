@@ -1,0 +1,221 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load tz %}
+{% block title %}Certificado{% endblock %}
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+  .certificado-bg {
+    background: #f5f0f7;
+    border-radius: 18px;
+    box-shadow: 0 2px 24px rgba(0,0,0,0.10);
+    width: 260mm;
+    height: 180mm;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    padding: 10mm 15mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .certificado-titulo {
+    color: #6c3eb6;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 0.2rem;
+    /* margin-left: 120px; */
+    /* text-align: left; */
+    text-align: center;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+  .certificado-titulo span {
+    font-size: 3rem;
+    white-space: normal;
+  }
+  .certificado-nome {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #111;
+    margin: 1.2rem 0 0.7rem 0;
+    letter-spacing: 1px;
+    font-weight: 700;
+    text-shadow: 1px 1px 0 #fbc02d, 0 1px 8px #00000011;
+  }
+  .certificado-curso {
+    font-weight: 700;
+    color: #222;
+    font-size: 1.2rem;
+    margin-bottom: 0.7rem;
+  }
+  .certificado-data {
+    color: #555;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+  }
+  .certificado-assinatura {
+    margin-top: 2.5rem;
+    text-align: right;
+    font-size: 1.1rem;
+    color: #6c3eb6;
+    font-family: 'Great Vibes', cursive;
+  }
+  .certificado-logo {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.5rem;
+    width: 90px;
+    opacity: 0.95;
+    z-index: 3;
+  }
+  .certificado-selo {
+    position: absolute;
+    bottom: 2.2rem;
+    right: 2.5rem;
+    width: 70px;
+    opacity: 0.85;
+  }
+  .certificado-canto {
+    position: absolute;
+    left: 0; top: 0;
+    width: 180px;
+    height: 120px;
+    background: linear-gradient(135deg, #fbc02d 60%, #f5f0f7 100%);
+    border-radius: 0 0 120px 0;
+    z-index: 0;
+  }
+  .certificado-canto2 {
+    position: absolute;
+    right: 0; top: 0;
+    width: 120px;
+    height: 80px;
+    background: linear-gradient(-135deg, #fbc02d 60%, #f5f0f7 100%);
+    border-radius: 0 0 0 80px;
+    z-index: 0;
+  }
+  .certificado-canto, .certificado-canto2 {
+    z-index: 1;
+  }
+  .certificado-numero {
+    position: absolute;
+    left: 2.5rem;
+    bottom: 1.1rem;
+    font-size: 1.1rem;
+    color: #222;
+    background: #fffbe6;
+    border-radius: 8px;
+    padding: 0.3em 1em;
+    font-weight: 600;
+    border: 1.5px solid #fbc02d;
+    z-index: 10;
+    box-shadow: 0 2px 8px #0001;
+  }
+  .certificado-data-emissao {
+    font-size: 1.25rem;
+    color: #fbc02d;
+    font-weight: 700;
+    margin-top: 2.2rem;
+    margin-bottom: 0.5rem;
+    text-align: right;
+    letter-spacing: 1px;
+  }
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+  }
+  @media (max-width: 600px) {
+    .certificado-bg {
+      width: 98vw !important;
+      height: auto !important;
+      padding: 2vw !important;
+      min-width: 0 !important;
+      min-height: 0 !important;
+    }
+    .certificado-titulo span {
+      font-size: 1.5rem !important;
+    }
+    .certificado-nome {
+      font-size: 1.3rem !important;
+    }
+    .certificado-data-emissao {
+      font-size: 1rem !important;
+    }
+  }
+  @media (max-width: 400px) {
+    .certificado-bg {
+      padding: 1vw !important;
+    }
+    .certificado-titulo span {
+      font-size: 1.1rem !important;
+    }
+    .certificado-nome {
+      font-size: 1rem !important;
+    }
+    .certificado-data-emissao {
+      font-size: 0.85rem !important;
+    }
+  }
+</style>
+<div id="certificado-pdf" class="certificado-bg">
+  <div class="certificado-canto"></div>
+  <div class="certificado-canto2"></div>
+  <div class="certificado-numero">Certificado nº 2025-0001</div>
+  <img src="{% static 'img/logo-golden.png' %}" class="certificado-logo" alt="Logo">
+  <!-- TÍTULO CENTRALIZADO ABAIXO DA FAIXA DECORATIVA -->
+  <div style="height: 100px;"></div> <!-- Espaço maior para faixa e logo -->
+  <div class="certificado-titulo" style="color: #fbc02d; margin-bottom: 1.5rem;">
+    <span style="white-space:normal; font-size:3rem; font-weight:700; letter-spacing:1px; color: #fbc02d;">CERTIFICADO DE CONCLUSÃO</span>
+  </div>
+  <div style="margin: 1.5rem 0 0.5rem 0; font-size:1.15rem;">Certificamos que</div>
+  <div class="certificado-nome">{{ nome_completo }}</div>
+  <div style="font-size:1.1rem; color:#444; margin-bottom:0.7rem;">Empresa: <strong>{{ empresa_nome }}</strong></div>
+  <div style="margin: 1.2rem 0 1.2rem 0; font-size:1.18rem; color:#222;">
+    Concluiu com êxito o curso <strong>Treinamento de Equipamento e Plataforma</strong>, cumprindo todos os requisitos estabelecidos pelo Grupo Golden Sat.
+  </div>
+  <div class="certificado-data-emissao">Data de Emissão: {{ data_conclusao|localtime|date:'d/m/Y' }}</div>
+  <div class="certificado-assinatura" style="z-index:1;">&nbsp;</div>
+  <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" class="certificado-selo" alt="Selo">
+  <div style="margin-top: 2.5rem; text-align: center;">
+    <button id="btn-pdf" class="btn btn-warning no-print" style="font-weight:600;">Baixar PDF</button>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+document.getElementById('btn-pdf').addEventListener('click', function () {
+    var element = document.getElementById('certificado-pdf');
+    var btn = document.getElementById('btn-pdf');
+    var originalWidth = element.style.width;
+    var originalHeight = element.style.height;
+    var originalMarginTop = element.style.marginTop;
+    var titulo = element.querySelector('.certificado-titulo');
+    var originalPaddingRight = titulo.style.paddingRight;
+    titulo.style.paddingRight = '110px';
+    var btnParent = btn.parentNode;
+    btnParent.removeChild(btn);
+
+    element.style.width = '260mm';
+    element.style.height = '180mm';
+    element.style.marginTop = '10mm';
+
+    setTimeout(function() {
+        html2pdf().set({
+            margin: 0,
+            filename: 'certificado.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+        }).from(element).save().then(() => {
+            btnParent.appendChild(btn);
+            element.style.width = originalWidth;
+            element.style.height = originalHeight;
+            element.style.marginTop = originalMarginTop;
+            titulo.style.paddingRight = originalPaddingRight;
+        });
+    }, 100);
+});
+</script>
+{% endblock %} 

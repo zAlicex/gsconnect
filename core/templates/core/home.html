@@ -1,0 +1,243 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Bem-vindo | Plataforma de Treinamento{% endblock %}
+
+{% block content %}
+<style>
+  .home-section {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .main-hero-row {
+    width: 100%;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("{% static 'img/fundo-hero.gif' %}") center center/cover no-repeat;
+    border-radius: 24px;
+    box-shadow: 0 4px 32px rgba(44,62,80,0.10);
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+    color: var(--branco);
+  }
+
+  .main-hero-text, .main-hero-text * {
+    color: #fff !important;
+    text-shadow: 2px 2px 8px #000;
+  }
+
+  .main-hero-title {
+    font-size: 2.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .main-hero-text a.btn {
+    background: var(--azul-escuro) !important;
+    color: var(--branco) !important;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.75rem 1.8rem;
+    border-radius: 12px;
+    transition: transform 0.2s, background 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    border: none;
+    opacity: 1;
+}
+
+.main-hero-text a.btn:hover {
+    background: var(--amarelo) !important;
+    color: var(--azul-escuro) !important;
+    transform: scale(1.05);
+}
+
+  .home-cards-row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+
+  .modern-card {
+    background: var(--branco);
+    color: var(--texto);
+    border-radius: 22px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    padding: 2rem;
+    width: 300px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+  }
+
+
+  .modern-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  }
+
+  .modern-card i {
+    font-size: 2.5rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .modern-card:nth-child(1) i {
+    color: #0d6efd;  /* azul */
+  }
+
+  .modern-card:nth-child(2) i {
+    color: #fd7e14;  /* laranja */
+  }
+
+  .modern-card:nth-child(3) i {
+    color: #198754;  /* verde */
+  }
+
+  .home-cards-row > .modern-card:nth-child(1) {
+    background: #e3eafc !important;   /* azul pastel */
+    color: var(--azul-escuro) !important;
+  }
+  .home-cards-row > .modern-card:nth-child(2) {
+    background: #fff9e3 !important;   /* amarelo pastel */
+    color: var(--azul-escuro) !important;
+  }
+  .home-cards-row > .modern-card:nth-child(3) {
+    background: #e3faed !important;   /* verde pastel */
+    color: var(--azul-escuro) !important;
+  }
+  body.dark-mode .modern-card {
+    background: #23272b;
+    color: #f3f3f3;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+  }
+  body.dark-mode .main-hero-row {
+    color: var(--branco);
+  }
+  body.dark-mode .main-hero-text a.btn {
+    background: var(--amarelo) !important;
+    color: #23272b !important;
+    font-weight: 700;
+  }
+  body.dark-mode .main-hero-text a.btn:hover {
+    background: var(--azul-escuro) !important;
+    color: var(--amarelo) !important;
+  }
+
+  .whatsapp-float {
+    position: fixed;
+    width: 70px;
+    height: 70px;
+    bottom: 30px;
+    right: 30px;
+    background-color: #25d366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    animation: pulse 2s infinite;
+    z-index: 1000;
+  }
+
+  .whatsapp-float:hover {
+    background-color: #128c7e;
+  }
+
+  .whatsapp-float img {
+    width: 40px;
+    height: 40px;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  @media (max-width: 768px) {
+    .home-cards-row {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .modern-card {
+      width: 98vw;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    .main-hero-row {
+      padding: 1.2rem;
+      flex-direction: column;
+    }
+    .whatsapp-float {
+      width: 54px;
+      height: 54px;
+      bottom: 12px;
+      right: 12px;
+    }
+    .whatsapp-float img {
+      width: 32px;
+      height: 32px;
+    }
+  }
+  @media (max-width: 400px) {
+    .modern-card {
+      padding: 0.7rem;
+      font-size: 0.95rem;
+    }
+    .main-hero-title {
+      font-size: 1.2rem;
+    }
+  }
+</style>
+
+<div class="container-fluid home-section">
+  <div class="row main-hero-row">
+    <div class="col-12 col-lg-6 main-hero-text">
+      <h1 class="fw-bold main-hero-title" style="white-space: nowrap;">
+        Bem-vindo à Plataforma de Treinamento
+      </h1>
+      <p class="lead mb-3">
+        Desenvolvida pelo <strong>Grupo Golden Sat</strong>, nossa plataforma oferece cursos, módulos e certificados para impulsionar o conhecimento e o crescimento profissional dos nossos colaboradores e parceiros.
+      </p>
+      <ul class="list-unstyled mb-3 fs-6">
+        <li><i class="bi bi-check-circle-fill text-warning me-2"></i> Acesso 24h a conteúdos exclusivos</li>
+        <li><i class="bi bi-check-circle-fill text-warning me-2"></i> Certificados reconhecidos</li>
+        <li><i class="bi bi-check-circle-fill text-warning me-2"></i> Suporte e acompanhamento pedagógico</li>
+        <li><i class="bi bi-check-circle-fill text-warning me-2"></i> Plataforma intuitiva e responsiva</li>
+      </ul>
+      <a href="{% url 'cursos:todos_modulos' %}" class="btn">
+        Explorar Módulos <i class="bi bi-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+
+  <div class="home-cards-row mt-4">
+    <div class="modern-card">
+      <i class="bi bi-mortarboard-fill"></i>
+      <h5 class="card-title">Cursos Exclusivos</h5>
+      <p class="card-text">Conteúdo atualizado, desenvolvido por especialistas do Grupo Golden Sat para capacitar você em rastreamento, tecnologia e gestão.</p>
+    </div>
+    <div class="modern-card">
+      <i class="bi bi-layers-fill"></i>
+      <h5 class="card-title">Módulos Interativos</h5>
+      <p class="card-text">Aprenda no seu ritmo, com módulos por tema, dificuldade e recursos multimídia para potencializar seu aprendizado.</p>
+    </div>
+    <div class="modern-card">
+      <i class="bi bi-award-fill"></i>
+      <h5 class="card-title">Certificados</h5>
+      <p class="card-text">Receba certificados reconhecidos pelo Grupo Golden Sat ao concluir treinamentos, valorizando ainda mais seu currículo.</p>
+    </div>
+  </div>
+</div>
+
+<a href="https://wa.me/5511978031144" class="whatsapp-float" target="_blank" title="Fale conosco no WhatsApp">
+  <img src="{% static 'img/whatsapp.png' %}" alt="WhatsApp">
+</a>
+
+{% endblock %}
