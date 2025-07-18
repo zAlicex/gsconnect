@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-vd!#7@mllyp#%%f@r)q#h^w*x#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.0.0.205', '127.0.0.1']
+ALLOWED_HOSTS = ['10.0.0.205', '127.0.0.1', 'gsconnect.com.br', "www.gsconnect.com.br", "100.29.145.74"]
 
 
 # Application definition
